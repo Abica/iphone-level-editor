@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple/DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>spider.png</key>
+	<dict>
+		<key>x</key>
+		<integer>533</integer>
+		<key>y</key>
+		<integer>1</integer>
+		<key>w</key>
+		<integer>50</integer>
+		<key>h</key>
+		<integer>49</integer>
+		<key>offsetX</key>
+		<integer>0</integer>
+		<key>offsetY</key>
+		<integer>0</integer>
+	</dict>
+	<key>ladybug.png</key>
+	<dict>
+		<key>x</key>
+		<integer>482</integer>
+		<key>y</key>
+		<integer>1</integer>
+		<key>w</key>
+		<integer>50</integer>
+		<key>h</key>
+		<integer>50</integer>
+		<key>offsetX</key>
+		<integer>0</integer>
+		<key>offsetY</key>
+		<integer>0</integer>
+	</dict>
+	<key>bg.png</key>
+	<dict>
+		<key>x</key>
+		<integer>1</integer>
+		<key>y</key>
+		<integer>1</integer>
+		<key>w</key>
+		<integer>480</integer>
+		<key>h</key>
+		<integer>320</integer>
+		<key>offsetX</key>
+		<integer>0</integer>
+		<key>offsetY</key>
+		<integer>0</integer>
+	</dict>
+</dict>
+</plist>
