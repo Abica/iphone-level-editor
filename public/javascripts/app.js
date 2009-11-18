@@ -62,7 +62,7 @@ var AtlasManager = {
       $( "#textures" ).append( div ) 
     } );
 
-    $( "#textures div div" ).draggable( { revert: true, helper: 'clone' } );
+    $( "#textures div div" ).draggable( { helper: 'clone' } );
   }
 }
 
@@ -87,7 +87,7 @@ $( function() {
         var position = ui.draggable.data( "position" );
         var sprite = new Sprite( "sprite_atlases/splat/texture.png", position.x, position.y, dimensions.width, dimensions.height );
 
-        sprite.element.draggable({ containment: 'parent'});
+        sprite.element.draggable( { containment: 'parent' } );
         $( "#iphone" ).append( sprite.element );
 
         sprite.element.css( {
