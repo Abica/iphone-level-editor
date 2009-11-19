@@ -26,6 +26,18 @@
       #iphone
       #options
         %a{:href => "#/flip"} Change Orientation
+      #sprite
+        %a{:href => "#/close", :id => :close} [X]
+        %a{:href => "#/delete"} Remove Sprite 
+        #position
+          Located at
+          %span{:id => :x}
+          x
+          %span{:id => :y}
+        Tag
+        %input{:id => :tag, :type => :text}
+        Z-index
+        %input{:id => :z, :type => :text}
     #textures
       %h2 Sprites
 

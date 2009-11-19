@@ -66,6 +66,26 @@ var AtlasManager = {
   }
 }
 
+function normalizePosition( position ) {
+  var iphone_position = $( "#iphone" ).position(); 
+  var x = position.left - iphone_position.left;
+  var y = position.top - iphone_position.top;
+  return new Point( x, y );
+}
+
+var spriteEventHandlers = {
+  mousedown: function() {
+    var sprite = $( this );
+    var position = normalizePosition( sprite.position() );
+
+    $( "#iphone div" ).removeClass( "selected" );
+    sprite.addClass( "selected" );
+    $( "#sprite #position #x" ).text( position.x );
+    $( "#sprite #position #y" ).text( position.y );
+    $( "#sprite" ).show();
+  }
+}
+
 var app = $.sammy( function() {
   this.get( "#/flip", function( context ) {
     var width = $( "#iphone" ).width();
@@ -75,17 +95,36 @@ var app = $.sammy( function() {
     $( "#iphone" ).height( width );
     this.redirect( '#/' );
   } );
+
+  this.get( "#/close", function( context ) {
+    $( "#sprite" ).hide();
+    this.redirect( '#/' );
+  } );
+
+  this.get( "#/delete", function( context ) {
+    $( "#sprite" ).hide();
+    $( "#iphone div.selected" ).remove();
+    this.redirect( '#/' );
+  } );
 } );
+
 
 $( function() {
   app.run( '#/' );
   AtlasManager.load();
+  $( "#sprite" ).hide();
   $( "#iphone" ).droppable( {
     drop: function( event, ui ) {
       if ( !ui.draggable.data( "onBoard" ) ) {
         var dimensions = ui.draggable.data( "dimensions" );
         var position = ui.draggable.data( "position" );
-        var sprite = new Sprite( "sprite_atlases/splat/texture.png", position.x, position.y, dimensions.width, dimensions.height );
+        var sprite = new Sprite(
+          "sprite_atlases/splat/texture.png",
+          position.x,
+          position.y,
+          dimensions.width,
+          dimensions.height
+        );
 
         sprite.element.draggable( { containment: 'parent' } );
         $( "#iphone" ).append( sprite.element );
@@ -97,11 +136,14 @@ $( function() {
         } );
 
         sprite.element.data( "onBoard", true );
+        sprite.element.mousedown( spriteEventHandlers.mousedown );
+        sprite.element.mousedown();
       } else {
         ui.draggable.css( {
           left: ui.position.left + "px",
           top: ui.position.top + "px"
         } );
+        ui.draggable.mousedown();
       }
     }
   } );
