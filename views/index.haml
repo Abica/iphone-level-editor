@@ -36,10 +36,11 @@
           %span{:id => :x}
           x
           %span{:id => :y}
-        %a{:href => "#/move-layer/bottom"} Layer to bottom
-        %a{:href => "#/move-layer/-1"} Lower layer
-        %a{:href => "#/move-layer/1"} Raise layer
-        %a{:href => "#/move-layer/top"} Layer to top
+        Z-Index
+        %a{:id => "layer-to-bottom", :href => "#/move-layer/bottom", :title => "Send to back"}
+        %a{:id => "layer-down", :href => "#/move-layer/-1", :title => "Move down"}
+        %a{:id => "layer-up", :href => "#/move-layer/1", :title => "Move up"}
+        %a{:id => "layer-to-front", :href => "#/move-layer/top", :title => "Send to front"}
         %br
         Tag
         %input{:id => :tag, :type => :text}

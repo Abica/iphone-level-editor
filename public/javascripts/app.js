@@ -99,9 +99,9 @@ var spriteEventHandlers = {
 
     $( '#iphone div' ).removeClass( 'selected' );
     sprite.addClass( 'selected' );
-    $( '#sprite #position #x' ).text( position.x );
-    $( '#sprite #position #y' ).text( position.y );
 
+    $( '#sprite #position #x' ).text( parseInt( position.x ) );
+    $( '#sprite #position #y' ).text( parseInt( position.y ) );
 
     $( '#sprite input' ).each( function() {
       var target = $( this );
