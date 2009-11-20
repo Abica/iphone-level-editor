@@ -1,1 +1,5 @@
-gem install sinatra
+git clone git@github.com:Abica/iphone-level-editor.git
+sudo gem install sinatra
+sudo gem install xml-simple
+sudo gem install json
+ruby iphone-level-editor/app.rb
