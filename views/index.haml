@@ -36,10 +36,13 @@
           %span{:id => :x}
           x
           %span{:id => :y}
+        %a{:href => "#/move-layer/bottom"} Layer to bottom
+        %a{:href => "#/move-layer/-1"} Lower layer
+        %a{:href => "#/move-layer/1"} Raise layer
+        %a{:href => "#/move-layer/top"} Layer to top
+        %br
         Tag
         %input{:id => :tag, :type => :text}
-        Z-index
-        %input{:id => :z, :type => :text}
     #textures
       %h2 Sprites
 

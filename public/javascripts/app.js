@@ -131,6 +131,37 @@ var app = $.sammy( function() {
     this.redirect( '#/' );
   } );
 
+  // move the selected sprite by :amount
+  this.get( '#/move-layer/:amount', function( context ) {
+    var sprite = $( '#iphone .selected' );
+    var z = parseInt( sprite.css( 'z-index' ) );
+    z = isNaN( z ) ? 0 : z;
+
+    switch ( this.params[ 'amount' ] ) {
+      case "bottom":
+        z = 0;
+        break;
+      case "top":
+        z = 10;
+        break;
+      case "-1":
+        z--;
+        break;
+      default:
+        z++;
+    }
+
+    if ( z < 1 ) {
+      sprite.css( 'z-index', 0 ); 
+      sprite.fadeTo( 500, 0.3 );
+
+    } else {
+      sprite.css( 'z-index', z ); 
+      sprite.fadeTo( 500, 1 );
+    }
+    this.redirect( '#/' );
+  } );
+
   // remove currently selected sprite from the iphone canvas
   this.get( '#/delete', function( context ) {
     $( '#sprite' ).hide();
