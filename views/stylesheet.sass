@@ -3,46 +3,56 @@
   ul#nav
     list-style-type: none
     li
-      display: inline
+      float: left
+      display: block
+      width: 25%
+      text-align: center
 
 #content
   margin: 2em auto
   text-align: center
 
-#levels, #canvas, #textures
-  float: left
+  #levels, #textures
+    width: 300px
+    overflow: hidden 
+    float: left
+    div
+      h2
+        border: 1px solid #000
 
-#levels, #textures
-  width: 300px
-  overflow: hidden 
+  #canvas
+    border-left: 1px solid gray
+    border-right: 1px solid gray
+    width: 700px
+    margin: 0 2em
+    float: left
 
-#canvas
-  border-left: 1px solid gray
-  border-right: 1px solid gray
-  width: 700px
-  margin: 0 2em
+    #iphone
+      margin: 0 auto
+      background: #000
+      width: 480px
+      height: 320px
 
-#canvas #iphone
-  margin: 0 auto
-  background: #000
-  width: 480px
-  height: 320px
+    #sprite
+      position: relative
+      border: 2px solid
+      padding: 1em
 
-#canvas #sprite
-  position: relative
-  border: 2px solid
-  padding: 1em
-
-#canvas #sprite #close
-  position: absolute
-  right: 0
-  top: 0
-  border: 2px solid
+      #close
+        position: absolute
+        right: 0
+        top: 0
+        border: 2px solid #000
+        border-top: 0px 
+        border-right: 0px 
+        display: block
+        height: 16px
+        width: 16px
+        background: url(/images/icons/cancel.png)
 
 #footer
   padding-top: 2em
   clear: left
-
-#footer p
-  border-top: 1px solid gray
-  text-align: center
+  p
+    border-top: 1px solid gray
+    text-align: center

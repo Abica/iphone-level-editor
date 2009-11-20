@@ -4,10 +4,12 @@
   %head
     %title iPhone Level Editor
     %link{:type => "text/css", :href => "/main.css", :media => "screen", :rel => "stylesheet"}
+    %link{:type => "text/css", :href => "/stylesheets/colorpicker.css", :media => "screen", :rel => "stylesheet"}
 
     %script{:type => "text/javascript", :src => "javascripts/jquery-1.3.2.min.js"}
     %script{:type => "text/javascript", :src => "javascripts/jquery-ui.min.js"}
     %script{:type => "text/javascript", :src => "javascripts/sammy-0.3.0.min.js"}
+    %script{:type => "text/javascript", :src => "javascripts/colorpicker.js"}
     %script{:type => "text/javascript", :src => "javascripts/app.js"}
 
   #header
@@ -27,7 +29,7 @@
       #options
         %a{:href => "#/flip"} Change Orientation
       #sprite
-        %a{:href => "#/close", :id => :close} [X]
+        %a{:href => "#/close", :id => :close}
         %a{:href => "#/delete"} Remove Sprite 
         #position
           Located at
