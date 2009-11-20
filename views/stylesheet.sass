@@ -1,3 +1,5 @@
+html
+  width: 1420px
 #header
   border-bottom: 1px solid gray
   ul#nav
@@ -23,7 +25,7 @@
   #canvas
     border-left: 1px solid gray
     border-right: 1px solid gray
-    width: 700px
+    width: 731px
     margin: 0 2em
     float: left
 
@@ -44,12 +46,26 @@
     #layer-to-front
       background: url(/images/icons/shape_move_front.png) no-repeat
 
-    #iphone
-      z-index: -10000
+    #iphone-case
       margin: 0 auto
-      background: #000
-      width: 480px
-      height: 320px
+      #iphone
+        z-index: -10000
+        margin: 0 auto
+        background: #000
+        width: 480px
+        height: 320px
+        border: 2px solid
+
+    #iphone-case.horizontal
+      width: 731px
+      height: 401px
+      background: url(/images/iphone_horizontal.gif) no-repeat
+      padding-top: 35px
+    #iphone-case.vertical
+      width: 401px
+      height: 610px
+      background: url(/images/iphone_vertical.gif) no-repeat
+      padding-top: 125px
 
     #sprite
       position: relative

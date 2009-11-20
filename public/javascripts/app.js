@@ -113,13 +113,28 @@ var spriteEventHandlers = {
   }
 }
 
+// TODO: this should take variadic args
+$.fn.cycleClasses = function( a, b ) {
+  return this.each(function() {  
+    var target = $( this );  
+    if ( target.hasClass( a ) ) {
+      target.removeClass( a );
+      target.addClass( b );
+    } else {
+      target.addClass( a );
+      target.removeClass( b );
+    }
+  } );
+}
+
 // setup interface routing
 var app = $.sammy( function() {
   // toggles the iphone canvas between landscape and portrait
   this.get( '#/flip', function( context ) {
     var width = $( '#iphone' ).width();
     var height = $( '#iphone' ).height();
-  
+
+    $( "#iphone-case" ).cycleClasses( "horizontal", "vertical" );
     $( '#iphone' ).width( height );
     $( '#iphone' ).height( width );
     this.redirect( '#/' );
