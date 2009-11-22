@@ -12,8 +12,23 @@ function Size( width, height ) {
   return this;
 }
 
+// returns a point relative to the the position of target
+function subtractPositionFromTarget( position, target ) {
+  var iphone_position = target.position(); 
+  var x = position.left - iphone_position.left;
+  var y = position.top - iphone_position.top;
+  return new Point( x, y );
+}
+
+function addPositionToTarget( position, target ) {
+  var iphone_position = target.position(); 
+  var x = ( position.left || position.x ) + iphone_position.left;
+  var y = ( position.top  || position.y ) + iphone_position.top;
+  return new Point( x, y );
+}
+
 // handles basic creation of a css sprite from a texture
-function Sprite( bundle_name, x, y, width, height ) {
+var Sprite = function( bundle_name, x, y, width, height ) {
   this.bundle_name = bundle_name;
   this.position = new Point( x, y );
   this.dimensions = new Size( width, height );
@@ -24,7 +39,7 @@ Sprite.prototype = {
   // create a css sprite and add it into the dom 
   create: function() {
     this.element = $( '<div />' ); 
-    this.element.data( 'metadata', {
+    this.setMetadata( {
       dimensions:  this.dimensions,
       position:    this.position,
       bundle_name: this.bundle_name
@@ -40,9 +55,113 @@ Sprite.prototype = {
     return this;
   },
 
+  // get the metatadata for this object
+  metadata: function() {
+    return this.element.data( 'metadata' );
+  },
+
+  // set the metadata for this object
+  setMetadata: function( values ) {
+    this.element.data( 'metadata', values );
+    return this.metadata();
+  },
+
   // clone the current sprite
   clone: function() {
     return new Sprite( this.bundle_name, this.position.x, this.position.y, this.dimensions.width, this.dimensions.height );
+  }
+}
+
+var LevelManager = {
+  // container for parsed levels
+  level_packs: {},
+
+  load: function() {
+    var context = this;
+    $.getJSON( '/levels.json', function( data ) {
+      context.clearMenu();
+      context.level_packs = data;
+      context.buildMenu();
+    } );
+  },
+  
+  levelFor: function( bundle_name, level_name ) {
+    return this.level_packs[ bundle_name ] && this.level_packs[ bundle_name ][ level_name ];
+  },
+
+  loadLevel: function( level_pack, level_name ) {
+    var level = this.levelFor( level_pack, level_name );
+    if ( level ) {
+      $.each( level.actors, function( bundle_name, actors ) {
+
+        $.each( actors, function( index, attrs ) {
+          var sprite = AtlasManager.spriteFor( bundle_name, attrs.image_name );
+          if ( sprite ) {
+
+            sprite.element.data( 'onBoard', true );
+            sprite.setMetadata( {
+              tag:         attrs.tag,
+              z:           attrs.z,
+              dimensions:  sprite.dimensions,
+              position:    sprite.position,
+              bundle_name: sprite.bundle_name
+            } );
+
+            var position = addPositionToTarget( new Point( attrs.x, attrs.y ), $( '#iphone' ) );
+            sprite.element.draggable( { containment: 'parent' } );
+            sprite.element.mousedown( spriteEventHandlers.mousedown );
+
+            sprite.element.css( {
+              position: 'absolute',
+              left: position.x + 'px',
+              top: position.y + 'px',
+              'z-index': attrs.z
+            } );
+
+            $( '#iphone' ).append( sprite.element );
+          } else {
+            alert( 'could not load ' + bundle_name + '/' + attrs.image_name );
+            return false;
+          }
+        } );
+      } );
+      return true;
+    }
+    return false;
+  },
+
+  newLevel: function() {
+    this.clearLevel();
+  },
+
+  saveLevel: function() {
+  },
+
+  clearLevel: function() {
+    $( '#iphone div' ).remove();
+  },
+
+  // removes all elements from the level packs menu
+  clearMenu: function() {
+    $( '#levels div' ).remove();
+  },
+
+  // generates a menu with all available sprite atlases
+  buildMenu: function() {
+    $.each( this.level_packs, function( bundle_name, levels ) {
+      var div = $( '<div />' ).attr( 'id', 'level-pack-' + bundle_name );
+      div.append( $( '<h2 />' ).text( bundle_name ) );
+
+      $.each( levels, function( level_name, attrs ) {
+        var level = $( '<a />' ).attr( 'href', '#/load/' + bundle_name + '/' + level_name );
+        level.text( level_name );
+        div.append( level );
+      } );
+
+      $( '#levels' ).append( div );
+    } );
+
+    $( '#levels div div' )
   }
 }
 
@@ -60,6 +179,13 @@ var AtlasManager = {
     } );
   },
 
+  spriteFor: function( bundle_name, sprite_name ) {
+    attrs = this.atlas_packs[ bundle_name ] && this.atlas_packs[ bundle_name ][ sprite_name ];
+    if ( attrs ) {
+      return new Sprite( bundle_name, attrs.x, attrs.y, attrs.w + 'px', attrs.h + 'px' );
+    }
+  },
+
   // removes all elements from the sprite atlas menu
   clearMenu: function() {
     $( '#textures div' ).remove();
@@ -68,7 +194,7 @@ var AtlasManager = {
   // generates a menu with all available sprite atlases
   buildMenu: function() {
     $.each( this.atlas_packs, function( bundle_name, images ) {
-      var div = $( '<div />' ).attr( 'id', bundle_name );
+      var div = $( '<div />' ).attr( 'id', 'atlas-pack-' - bundle_name );
       div.append( $( '<h2 />' ).text( bundle_name ) );
 
       $.each( images, function( image_name, attrs ) {
@@ -81,21 +207,14 @@ var AtlasManager = {
 
     $( '#textures div div' ).draggable( { helper: 'clone' } );
   }
-}
 
-// returns a point relative to the the position of target
-function pointRelativeTo( position, target ) {
-  var iphone_position = target.position(); 
-  var x = position.left - iphone_position.left;
-  var y = position.top - iphone_position.top;
-  return new Point( x, y );
 }
 
 var spriteEventHandlers = {
   // setup and show attributes pane when a sprite is touched
   mousedown: function() {
     var sprite = $( this );
-    var position = pointRelativeTo( sprite.position(), $( '#iphone' ) );
+    var position = subtractPositionFromTarget( sprite.position(), $( '#iphone' ) );
 
     $( '#iphone div' ).removeClass( 'selected' );
     sprite.addClass( 'selected' );
@@ -105,7 +224,8 @@ var spriteEventHandlers = {
 
     $( '#sprite input' ).each( function() {
       var target = $( this );
-      var value = $( '#iphone .selected' ).data( target.attr( 'id' ) );
+      var value = $( '#iphone .selected' ).data( 'metadata' )[ target.attr( 'id' ) ];
+console.log(value)
       target.val( value || '' );
     } );
 
@@ -134,9 +254,16 @@ var app = $.sammy( function() {
     var width = $( '#iphone' ).width();
     var height = $( '#iphone' ).height();
 
-    $( "#iphone-case" ).cycleClasses( "horizontal", "vertical" );
+    $( '#iphone-case' ).cycleClasses( 'horizontal', 'vertical' );
     $( '#iphone' ).width( height );
     $( '#iphone' ).height( width );
+
+    $( '#iphone div' ).each( function() {
+      width = $( this ).width();
+      height = $( this ).height();
+      $( this ).width( height );
+      $( this ).height( width );
+    } );
     this.redirect( '#/' );
   } );
 
@@ -146,20 +273,27 @@ var app = $.sammy( function() {
     this.redirect( '#/' );
   } );
 
+  // loads given level onto the iphone
+  this.get( '#/load/:bundle_name/:level_name', function( context ) {
+    LevelManager.clearLevel();
+    LevelManager.loadLevel( this.params.bundle_name, this.params.level_name );
+    this.redirect( '#/' );
+  } );
+
   // move the selected sprite by :amount
   this.get( '#/move-layer/:amount', function( context ) {
     var sprite = $( '#iphone .selected' );
     var z = parseInt( sprite.css( 'z-index' ) );
     z = isNaN( z ) ? 0 : z;
 
-    switch ( this.params[ 'amount' ] ) {
-      case "bottom":
+    switch ( this.params.amount ) {
+      case 'bottom':
         z = 0;
         break;
-      case "top":
+      case 'top':
         z = 10;
         break;
-      case "-1":
+      case '-1':
         z--;
         break;
       default:
@@ -189,6 +323,8 @@ var app = $.sammy( function() {
 $( function() {
   app.run( '#/' );
   AtlasManager.load();
+  LevelManager.load();
+  
   $( '#sprite' ).hide();
   $( '#tag, #z' ).blur( function() {
     var target = $( this );
@@ -196,8 +332,9 @@ $( function() {
   } );
 
   $( '#iphone' ).ColorPicker( {
-    color: '#0000ff',
+    color: '#000000',
     onShow: function( picker ) {
+      $( '#iphone' ).css( 'backgroundColor', '#' + this.color );
       $( picker ).fadeIn( 500 );
       return false;
     },

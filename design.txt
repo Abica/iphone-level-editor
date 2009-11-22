@@ -1,0 +1,12 @@
+levels = {
+  bumpercars: {
+    levels: {
+      levelname:  {
+        spritename: {
+          tag: "paddle.png",
+          z: "2"
+        }
+      }
+    }
+  }
+}

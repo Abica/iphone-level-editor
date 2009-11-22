@@ -1,0 +1,48 @@
+{
+  aTack: {
+    levelname: {
+      orientation: "vertical",
+      actors: {
+        splat: [
+          { image_name: "spider.png",
+            tag: "spider.png",
+            x: 40,
+            y: 60,
+            z: 2 } 
+        ]
+      }
+    }
+  },
+  splat: {
+    something:  {
+      orientation: "horizontal",
+      actors: {
+        splat: [ 
+          { image_name: "spider.png",
+            tag: "spider",
+            x: 40,
+            y: 60,
+            z: 2 },
+          { image_name: "ladybug.png",
+            tag: "ladybug",
+            x: 400,
+            y: 130,
+            z: 1 }
+        ],
+        aTack: [ 
+          { image_name: "fire.png",
+            tag: "fire",
+            x: 80,
+            y: 200,
+            z: 2 },
+          { image_name: "brick.png",
+            tag: "brick",
+            x: 300,
+            y: 200,
+            z: 1 }
+        ]
+
+      }
+    }
+  }
+}

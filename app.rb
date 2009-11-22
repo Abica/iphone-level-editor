@@ -11,11 +11,20 @@ get '/' do
   haml :index, :layout => true
 end
 
+get '/levels.json' do
+  content_type :json
+
+  levels = Dir[ "public/level_packs/*/*.json" ].inject( "" ) do | str, path |
+    str + IO.read( path )
+  end
+
+  levels
+end
+
 get '/sprite_atlases.json' do
   content_type :json
 
-  atlases = Dir[ "public/sprite_atlases/*/*" ].inject( {} ) do | hsh, path |
-    next hsh unless path[ /plist$/ ]
+  atlases = Dir[ "public/sprite_atlases/*/*.plist" ].inject( {} ) do | hsh, path |
     atlas_name = File.dirname( path )[ /\/([^\/]+)$/, 1 ]
     hsh[ atlas_name ] = PlistImporter.xml_from_plist( path )
     hsh
