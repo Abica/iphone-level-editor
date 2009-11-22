@@ -23,3 +23,6 @@
   [ ] collapse / expand
   [ ] delete a sprite pack
   [ ] import a sprite pack
+
+[ ] Overall
+  [ ] the entire app needs styling
