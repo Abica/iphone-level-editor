@@ -1,0 +1,25 @@
+[ ] Level Packs
+  [ ] create a level pack
+  [ ] delete a level pack
+  [ ] collapse / expand
+  [ ] export a level pack
+  [ ] import a level pack
+
+[ ] Levels
+  [ ] indicate which level is currently selected
+  [ ] respect orientation of saved levels when reloading them
+  [ ] delete a level
+  [ ] create a level
+  [ ] Associated Sprites
+    [ ] collapse / expand list of all sprites in level
+    [ ] quick select of sprite
+    [ ] quick delete option next to sprite
+
+[ ] Phone
+  [ ] changing phone orientation should rotate the positions of the placed sprites
+  [ ] clip overflow
+
+[ ] Sprite Packs
+  [ ] collapse / expand
+  [ ] delete a sprite pack
+  [ ] import a sprite pack
