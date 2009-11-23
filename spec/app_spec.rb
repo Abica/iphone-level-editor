@@ -26,9 +26,11 @@ describe "app.rb" do
     end
   end
 
-  it "should have a text/css content type" do
-    get "/main.css"
-    last_response.content_type.should include( "text/css" )
+  describe "GET /main.css" do
+    it "should have a text/css content type" do
+      get "/main.css"
+      last_response.content_type.should include( "text/css" )
+    end
   end
 
   describe "PlistImporter" do
