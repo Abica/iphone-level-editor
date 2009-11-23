@@ -67,6 +67,25 @@ describe "app.rb" do
     end
 
     describe "#flatten" do
+      before do
+        @xml = XmlSimple.xml_in( %{
+          <dict>
+            <key>keyname</key>
+            <dict>
+              <key>a</key>
+              <integer>1</integer>
+              <key>b</key>
+              <integer>2</integer>
+            </dict>
+          </dict>
+        } )
+
+        @plist_importer = PlistImporter.new( nil )
+      end
+
+      it "should merge parallel arrays into key/value hashes" do
+        @plist_importer.flatten( @xml ).should == { "keyname" => { "a" => "1", "b" => "2" } }
+      end
     end
   end
 end
