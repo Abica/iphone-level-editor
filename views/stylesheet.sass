@@ -1,6 +1,8 @@
 html
   width: 1420px
+
 #header
+  display: none
   border-bottom: 1px solid gray
   ul#nav
     list-style-type: none
@@ -46,7 +48,7 @@ html
         padding: 0 8px
         margin: 0 5px
         margin-top: 0 5px
-        background: url(/images/icons/color_wheel.png)
+        background: url(/images/icons/color_wheel.png) no-repeat
 
     #layer-to-bottom, #layer-down, #layer-up, #layer-to-front
       padding: 0 8px
@@ -80,11 +82,13 @@ html
       height: 365px
       background: url(/images/iphone_horizontal.gif) no-repeat
       padding-top: 35px
+
     #iphone-case.vertical
       width: 401px
       height: 610px
       background: url(/images/iphone_vertical.gif) no-repeat
-      padding-top: 125px
+      padding-top: 123px
+      padding-left: 2px
 
     #sprite
       position: relative

@@ -12,18 +12,43 @@ function Size( width, height ) {
   return this;
 }
 
+// returns a point representing target's position with margins added
+//
+// this is mainly used to get around firefox treating auto margins as 0 for
+// centered objects where (margin: 0 auto) will return a css position of 0,
+// whereas in safari it will return the position relative to the parent's edges
+//
+// that is,
+//
+// given
+//   #element { margin: 0 auto; }
+//
+// in safari
+// $( "#element" ).position().left == left
+// $( "#element" ).css( "margin-left" ) == 145px
+//
+// in firefox
+// $( "#element" ).position().left == left + margin-left
+// $( "#element" ).css( "margin-left" ) == 0px
+function targetPositionWithMargin( target ) {
+  return new Point(
+    target.position().left + parseInt( target.css( "margin-left" ) ),
+    target.position().top + parseInt( target.css( "margin-top" ) )
+  );
+}
+
 // returns a point relative to the the position of target
 function subtractPositionFromTarget( position, target ) {
-  var iphone_position = target.position(); 
-  var x = position.left - iphone_position.left;
-  var y = position.top - iphone_position.top;
+  var target_position = targetPositionWithMargin( target );
+  var x = position.left - target_position.x;
+  var y = position.top - target_position.y;
   return new Point( x, y );
 }
 
 function addPositionToTarget( position, target ) {
-  var iphone_position = target.position(); 
-  var x = ( position.left || position.x ) + iphone_position.left;
-  var y = ( position.top  || position.y ) + iphone_position.top;
+  var target_position = targetPositionWithMargin( target );
+  var x = ( position.left || position.x ) + target_position.x;
+  var y = ( position.top  || position.y ) + target_position.y;
   return new Point( x, y );
 }
 
@@ -165,7 +190,7 @@ var LevelManager = {
         var level = $( '<li />' ).attr( 'id', 'level-pack-' + bundle_name + '-' + level_name );
         var level_anchor = $( '<a />' ).attr( {
           href: '#/load/' + bundle_name + '/' + level_name,
-          class: 'load-level-link'
+          'class': 'load-level-link'
         } );
         $( '#iphone div' ).each( function() {
 
