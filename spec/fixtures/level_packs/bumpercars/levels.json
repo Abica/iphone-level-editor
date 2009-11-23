@@ -1,0 +1,46 @@
+{
+  "aTack": {
+    "levelname": {
+      "orientation": "vertical",
+      "actors": [
+        { "image_name": "spider.png",
+          "bundle_name": "splat",
+          "tag": "spider.png",
+          "x": 40,
+          "y": 60,
+          "z": 2 } 
+      ]
+    }
+  },
+  "splat": {
+    "something":  {
+      "orientation": "horizontal",
+      "actors": [
+        { "image_name": "spider.png",
+          "bundle_name": "splat",
+          "tag": "spider",
+          "x": 40,
+          "y": 60,
+          "z": 2 },
+        { "image_name": "ladybug.png",
+          "bundle_name": "splat",
+          "tag": "ladybug",
+          "x": 400,
+          "y": 130,
+          "z": 1 },
+        { "image_name": "fire.png",
+          "bundle_name": "aTack",
+          "tag": "fire",
+          "x": 80,
+          "y": 200,
+          "z": 2 },
+        { "image_name": "brick.png",
+          "bundle_name": "aTack",
+          "tag": "brick",
+          "x": 300,
+          "y": 200,
+          "z": 1 }
+      ]
+    }
+  }
+}
