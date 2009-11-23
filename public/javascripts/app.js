@@ -110,6 +110,12 @@ var LevelManager = {
             var position = addPositionToTarget( new Point( attrs.x, attrs.y ), $( '#iphone' ) );
             sprite.element.draggable( { containment: 'parent' } );
             sprite.element.mousedown( spriteEventHandlers.mousedown );
+            
+            // FIXME: this should rotate the phone but for some reason doesn't..
+            //        it appears the sammy route is not getting called as I'd expect
+            if ( !$( '#iphone-case' ).hasClass( level.orientation ) ) {
+              $( '<a />' ).attr( 'href', '#/flip' ).click();
+            }
 
             sprite.element.css( {
               position: 'absolute',
@@ -149,19 +155,34 @@ var LevelManager = {
   // generates a menu with all available sprite atlases
   buildMenu: function() {
     $.each( this.level_packs, function( bundle_name, levels ) {
-      var div = $( '<div />' ).attr( 'id', 'level-pack-' + bundle_name );
-      div.append( $( '<h2 />' ).text( bundle_name ) );
+      var li = $( '<li />' );
+      li.append( $( '<span />' ).text( bundle_name ) );
+
+      var levels_ul = $( '<ul />' ).attr( 'id', 'level-pack-' + bundle_name );
+      li.append( levels_ul );
 
       $.each( levels, function( level_name, attrs ) {
-        var level = $( '<a />' ).attr( 'href', '#/load/' + bundle_name + '/' + level_name );
-        level.text( level_name );
-        div.append( level );
+        var level = $( '<li />' ).attr( 'id', 'level-pack-' + bundle_name + '-' + level_name );
+        var level_anchor = $( '<a />' ).attr( {
+          href: '#/load/' + bundle_name + '/' + level_name,
+          class: 'load-level-link'
+        } );
+        $( '#iphone div' ).each( function() {
+
+        } );
+        level_anchor.text( level_name );
+        level.append( level_anchor );
+        levels_ul.append( level );
       } );
 
-      $( '#levels' ).append( div );
+      $( '#levels ul#level-packs' ).append( li );
     } );
+    $( '#levels ul#level-packs' ).treeview({collapsed: true});
 
-    $( '#levels div div' )
+    $( '#levels ul#level-packs a.load-level-link' ).click( function() {
+      $( '#levels ul#level-packs a.load-level-link' ).removeClass( 'selected-level' );
+      $( this ).addClass( 'selected-level' );
+    } );
   }
 }
 
@@ -225,7 +246,6 @@ var spriteEventHandlers = {
     $( '#sprite input' ).each( function() {
       var target = $( this );
       var value = $( '#iphone .selected' ).data( 'metadata' )[ target.attr( 'id' ) ];
-console.log(value)
       target.val( value || '' );
     } );
 
@@ -259,10 +279,7 @@ var app = $.sammy( function() {
     $( '#iphone' ).height( width );
 
     $( '#iphone div' ).each( function() {
-      width = $( this ).width();
-      height = $( this ).height();
-      $( this ).width( height );
-      $( this ).height( width );
+      // TODO: handle rotating the position of the sprites on the phone
     } );
     this.redirect( '#/' );
   } );
@@ -277,6 +294,7 @@ var app = $.sammy( function() {
   this.get( '#/load/:bundle_name/:level_name', function( context ) {
     LevelManager.clearLevel();
     LevelManager.loadLevel( this.params.bundle_name, this.params.level_name );
+
     this.redirect( '#/' );
   } );
 
@@ -328,10 +346,11 @@ $( function() {
   $( '#sprite' ).hide();
   $( '#tag, #z' ).blur( function() {
     var target = $( this );
-    $( '#iphone .selected' ).data( target.attr( 'id' ), target.val() );
+    var metadata = $( '#iphone .selected' ).data( 'metadata' );
+    metadata[ target.attr( 'id' ) ] = target.val();
   } );
 
-  $( '#iphone' ).ColorPicker( {
+  $( '#options #color-wheel' ).ColorPicker( {
     color: '#000000',
     onShow: function( picker ) {
       $( '#iphone' ).css( 'backgroundColor', '#' + this.color );

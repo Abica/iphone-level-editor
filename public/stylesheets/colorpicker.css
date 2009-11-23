@@ -1,4 +1,5 @@
 .colorpicker {
+	z-index: 100000;
 	width: 356px;
 	height: 176px;
 	overflow: hidden;

@@ -13,21 +13,40 @@ html
 #content
   margin: 2em auto
   text-align: center
+  #levels
+    float: left
+    li
+      text-align: left
+    a
+      padding: 5px
+      display: block
+    a.selected-level
+      border: 1px solid red
+
+  #textures
+    width: 320px
+    float: right
 
   #levels, #textures
-    width: 300px
     overflow: hidden 
-    float: left
     div
       h2
         border: 1px solid #000
 
   #canvas
-    border-left: 1px solid gray
-    border-right: 1px solid gray
+    border: 1px solid gray
     width: 731px
+    width: 875px
     margin: 0 2em
     float: left
+
+    #options
+      #color-wheel
+        border: 0px 
+        padding: 0 8px
+        margin: 0 5px
+        margin-top: 0 5px
+        background: url(/images/icons/color_wheel.png)
 
     #layer-to-bottom, #layer-down, #layer-up, #layer-to-front
       padding: 0 8px
@@ -85,8 +104,8 @@ html
         background: url(/images/icons/cancel.png)
 
 #footer
-  padding-top: 2em
   clear: left
   p
+    padding-top: 10px
     border-top: 1px solid gray
     text-align: center
