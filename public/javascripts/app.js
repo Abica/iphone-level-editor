@@ -15,7 +15,7 @@ function Size( width, height ) {
 // returns a point representing target's position with margins added
 //
 // this is mainly used to get around firefox treating auto margins as 0 for
-// centered objects where (margin: 0 auto) will return a css position of 0,
+// centered objects where (margin: 0 auto) will return a css position of 0px in jquery,
 // whereas in safari it will return the position relative to the parent's edges
 //
 // that is,
@@ -117,44 +117,41 @@ var LevelManager = {
   loadLevel: function( level_pack, level_name ) {
     var level = this.levelFor( level_pack, level_name );
     if ( level ) {
-      $.each( level.actors, function( bundle_name, actors ) {
+      $.each( level.actors, function( index, attrs ) {
+        var sprite = AtlasManager.spriteFor( attrs.bundle_name, attrs.image_name );
+        if ( sprite ) {
 
-        $.each( actors, function( index, attrs ) {
-          var sprite = AtlasManager.spriteFor( bundle_name, attrs.image_name );
-          if ( sprite ) {
+          sprite.element.data( 'onBoard', true );
+          sprite.setMetadata( {
+            tag:         attrs.tag,
+            z:           attrs.z,
+            dimensions:  sprite.dimensions,
+            position:    sprite.position,
+            bundle_name: sprite.bundle_name
+          } );
 
-            sprite.element.data( 'onBoard', true );
-            sprite.setMetadata( {
-              tag:         attrs.tag,
-              z:           attrs.z,
-              dimensions:  sprite.dimensions,
-              position:    sprite.position,
-              bundle_name: sprite.bundle_name
-            } );
-
-            var position = addPositionToTarget( new Point( attrs.x, attrs.y ), $( '#iphone' ) );
-            sprite.element.draggable( { containment: 'parent' } );
-            sprite.element.mousedown( spriteEventHandlers.mousedown );
-            
-            // FIXME: this should rotate the phone but for some reason doesn't..
-            //        it appears the sammy route is not getting called as I'd expect
-            if ( !$( '#iphone-case' ).hasClass( level.orientation ) ) {
-              $( '<a />' ).attr( 'href', '#/flip' ).click();
-            }
-
-            sprite.element.css( {
-              position: 'absolute',
-              left: position.x + 'px',
-              top: position.y + 'px',
-              'z-index': attrs.z
-            } );
-
-            $( '#iphone' ).append( sprite.element );
-          } else {
-            alert( 'could not load ' + bundle_name + '/' + attrs.image_name );
-            return false;
+          var position = addPositionToTarget( new Point( attrs.x, attrs.y ), $( '#iphone' ) );
+          sprite.element.draggable( { containment: 'parent' } );
+          sprite.element.mousedown( spriteEventHandlers.mousedown );
+          
+          // FIXME: this should rotate the phone but for some reason doesn't..
+          //        it appears the sammy route is not getting called as I'd expect
+          if ( !$( '#iphone-case' ).hasClass( level.orientation ) ) {
+            $( '<a />' ).attr( 'href', '#/flip' ).click();
           }
-        } );
+
+          sprite.element.css( {
+            position: 'absolute',
+            left: position.x + 'px',
+            top: position.y + 'px',
+            'z-index': attrs.z
+          } );
+
+          $( '#iphone' ).append( sprite.element );
+        } else {
+          alert( 'could not load ' + attrs.bundle_name + '/' + attrs.image_name );
+          return false;
+        }
       } );
       return true;
     }
@@ -177,7 +174,7 @@ var LevelManager = {
     $( '#levels div' ).remove();
   },
 
-  // generates a menu with all available sprite atlases
+  // generates a menu with all available level packs
   buildMenu: function() {
     $.each( this.level_packs, function( bundle_name, levels ) {
       var li = $( '<li />' );
@@ -186,18 +183,26 @@ var LevelManager = {
       var levels_ul = $( '<ul />' ).attr( 'id', 'level-pack-' + bundle_name );
       li.append( levels_ul );
 
-      $.each( levels, function( level_name, attrs ) {
-        var level = $( '<li />' ).attr( 'id', 'level-pack-' + bundle_name + '-' + level_name );
+      $.each( levels, function( level_name, level ) {
+        var level_li = $( '<li />' ).attr( 'id', 'level-pack-' + bundle_name + '-' + level_name );
         var level_anchor = $( '<a />' ).attr( {
           href: '#/load/' + bundle_name + '/' + level_name,
           'class': 'load-level-link'
         } );
-        $( '#iphone div' ).each( function() {
-
+        
+        var sprites_ul = $( '<ul />' ).attr( 'id', 'level-pack-' + bundle_name + '-' + level_name + '-sprites' );
+        $.each( level.actors, function( index, sprite ) {
+          var sprite_li = sprites_ul.append( $( '<li />' ) );
+          var sprite_anchor = $( '<a />' ).text( sprite.tag || sprite.image_name );
+          sprite_anchor.click( function() {
+            $( $( "#iphone div" )[ index ] ).mousedown();  
+          } );
+          sprite_li.append( $( '<span />' ).append( sprite_anchor ) );
         } );
         level_anchor.text( level_name );
-        level.append( level_anchor );
-        levels_ul.append( level );
+        level_li.append( level_anchor );
+        level_li.append( sprites_ul );
+        levels_ul.append( level_li );
       } );
 
       $( '#levels ul#level-packs' ).append( li );
