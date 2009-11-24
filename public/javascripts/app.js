@@ -308,9 +308,21 @@ var app = $.sammy( function() {
     $( '#iphone' ).width( height );
     $( '#iphone' ).height( width );
 
+    /* TODO: rotate sprite positions to match up with phone orientation, need to translate from origin 0, 0
+    var angle = 10;
+    var x, y;
     $( '#iphone div' ).each( function() {
-      // TODO: handle rotating the position of the sprites on the phone
+      var position = $( this ).position();
+      x = position.left * Math.cos( angle ) - position.top * Math.sin( angle );
+      y = position.left * Math.sin( angle ) + position.top * Math.cos( angle );
+console.log(x,y);
+      $( this ).css( { 
+        left: x + "px",
+        top: y + "px"
+      } );
     } );
+    */
+
     this.redirect( '#/' );
   } );
 
