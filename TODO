@@ -18,6 +18,7 @@
 [ ] Phone
   [ ] changing phone orientation should rotate the positions of the placed sprites
   [ ] clip overflow
+  [ ] ability to set the origin of the sprite (center, upper left, etc)
 
 [ ] Sprite Packs
   [ ] collapse / expand
