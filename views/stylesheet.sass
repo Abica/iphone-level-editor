@@ -1,6 +1,9 @@
 html
   width: 1420px
 
+#form
+  display: none
+
 #header
   display: none
   border-bottom: 1px solid gray
@@ -15,19 +18,53 @@ html
 #content
   margin: 2em auto
   text-align: center
+  #level-packs
+    li
+
   #levels
     float: left
+    width: 220px
+    #level-pack-options
+      #new-level-pack
+        border: 0px 
+        padding: 8px 8px
+        margin: 0 5px
+        margin-top: 0 5px
+        border: 1px solid red
+        background: url(/images/icons/folder_add.png) no-repeat
+      #export-level-pack
+        border: 0px 
+        padding: 8px 8px
+        margin: 0 5px
+        margin-top: 0 5px
+        background: url(/images/icons/color_wheel.png) no-repeat
+        border: 1px solid red
+
     li
       text-align: left
-    a
-      padding: 5px
-      display: block
-    a.selected-level
-      border: 1px solid red
+      a
+        padding: 5px
+      a.selected-level
+        border: 1px solid red
+
+      .delete-level,
+      .delete-sprite
+        border: 0px 
+        padding: 8px 8px
+        margin: 0 5px
+        margin-top: 0 5px
+        background: url(/images/icons/delete.png) no-repeat
 
   #textures
     width: 320px
     float: right
+    #texture-options
+      #new-texture
+        border: 0px 
+        padding: 0 8px
+        margin: 0 5px
+        margin-top: 0 5px
+        background: url(/images/icons/folder_add.png) no-repeat
 
   #levels, #textures
     overflow: hidden 
@@ -38,17 +75,36 @@ html
   #canvas
     border: 1px solid gray
     width: 731px
-    width: 875px
     margin: 0 2em
     float: left
 
     #options
-      #color-wheel
+      a
         border: 0px 
         padding: 0 8px
         margin: 0 5px
         margin-top: 0 5px
+
+      #color-wheel
         background: url(/images/icons/color_wheel.png) no-repeat
+
+      #new-level
+        background: url(/images/icons/new.png) no-repeat
+
+      #save-level
+        background: url(/images/icons/disk.png) no-repeat
+
+      #save-level-as
+        background: url(/images/icons/disk_multiple.png) no-repeat
+
+      #clear
+        background: url(/images/icons/cross.png) no-repeat
+
+      #change-orientation.clockwise
+        background: url(/images/icons/arrow_rotate_clockwise.png) no-repeat
+
+      #change-orientation.anticlockwise
+        background: url(/images/icons/arrow_rotate_anticlockwise.png) no-repeat
 
     #layer-to-bottom, #layer-down, #layer-up, #layer-to-front
       padding: 0 8px

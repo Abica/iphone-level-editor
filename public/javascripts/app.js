@@ -100,6 +100,8 @@ Sprite.prototype = {
 var LevelManager = {
   // container for parsed levels
   level_packs: {},
+  current_level: null,
+  tree: null,
 
   load: function() {
     var context = this;
@@ -158,6 +160,14 @@ var LevelManager = {
     return false;
   },
 
+  isActive: function() {
+    return $( "#iphone div" ).length > 0;
+  },
+
+  isEmpty: function() {
+    return !this.isActive();
+  },
+
   newLevel: function() {
     this.clearLevel();
   },
@@ -178,36 +188,51 @@ var LevelManager = {
   buildMenu: function() {
     $.each( this.level_packs, function( bundle_name, levels ) {
       var li = $( '<li />' );
-      li.append( $( '<span />' ).text( bundle_name ) );
+      li.append( $( '<span />' ).text( bundle_name ).addClass( "folder" ) );
 
       var levels_ul = $( '<ul />' ).attr( 'id', 'level-pack-' + bundle_name );
       li.append( levels_ul );
 
       $.each( levels, function( level_name, level ) {
         var level_li = $( '<li />' ).attr( 'id', 'level-pack-' + bundle_name + '-' + level_name );
+        var level_span = $( '<span />' ).addClass( 'file' );
         var level_anchor = $( '<a />' ).attr( {
           href: '#/load/' + bundle_name + '/' + level_name,
           'class': 'load-level-link'
         } );
+
+        var level_options = $( '<span />' ).addClass( 'level-options' );
+        level_options.append( $(
+          $( '<a />' ).addClass( 'delete-sprite' )
+        ) );
         
         var sprites_ul = $( '<ul />' ).attr( 'id', 'level-pack-' + bundle_name + '-' + level_name + '-sprites' );
         $.each( level.actors, function( index, sprite ) {
           var sprite_li = sprites_ul.append( $( '<li />' ) );
           var sprite_anchor = $( '<a />' ).text( sprite.tag || sprite.image_name );
+          var sprite_options = $( '<span />' ).addClass( 'level-sprite-options' );
+          sprite_options.append( $(
+            $( '<a />' ).addClass( 'delete-sprite' )
+          ) );
+
           sprite_anchor.click( function() {
             $( $( "#iphone div" )[ index ] ).mousedown();  
           } );
-          sprite_li.append( $( '<span />' ).append( sprite_anchor ) );
+          var sprite_span = $( '<span />' ).append( sprite_anchor );
+          sprite_span.append( sprite_options );
+          sprite_li.append( sprite_span );
         } );
         level_anchor.text( level_name );
-        level_li.append( level_anchor );
+        level_span.append( level_anchor );
+        level_span.append( level_options );
+        level_li.append( level_span );
         level_li.append( sprites_ul );
         levels_ul.append( level_li );
       } );
 
       $( '#levels ul#level-packs' ).append( li );
     } );
-    $( '#levels ul#level-packs' ).treeview({collapsed: true});
+    $( '#levels ul#level-packs' ).treeview({collapsed: true, unique: true});
 
     $( '#levels ul#level-packs a.load-level-link' ).click( function() {
       $( '#levels ul#level-packs a.load-level-link' ).removeClass( 'selected-level' );
@@ -305,6 +330,7 @@ var app = $.sammy( function() {
     var height = $( '#iphone' ).height();
 
     $( '#iphone-case' ).cycleClasses( 'horizontal', 'vertical' );
+    $( '#change-orientation' ).cycleClasses( 'clockwise', 'anticlockwise' );
     $( '#iphone' ).width( height );
     $( '#iphone' ).height( width );
 
@@ -337,6 +363,31 @@ console.log(x,y);
     LevelManager.clearLevel();
     LevelManager.loadLevel( this.params.bundle_name, this.params.level_name );
 
+    this.redirect( '#/' );
+  } );
+
+  this.get( '#/new-level-pack', function( context ) {
+    this.redirect( '#/' );
+  } );
+
+  this.get( '#/new-level', function( context ) {
+    this.redirect( '#/' );
+  } );
+
+  this.get( '#/new-level', function( context ) {
+    this.redirect( '#/' );
+  } );
+
+  this.get( '#/save-canvas', function( context ) {
+    this.redirect( '#/' );
+  } );
+
+  this.get( '#/save-canvas-as', function( context ) {
+    this.redirect( '#/' );
+  } );
+
+  this.get( '#/clear-canvas', function( context ) {
+    LevelManager.clearLevel();
     this.redirect( '#/' );
   } );
 

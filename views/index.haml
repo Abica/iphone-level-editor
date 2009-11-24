@@ -22,12 +22,21 @@
       %li Import Texture
 
   #notice
-
+  #form
+    level pack name
+    %br
+    %input{:id => :l, :type => :text}
+    
   #content
 
     #levels
       %h2 Level Packs
-      %ul{:id => "level-packs"}
+
+      %span{:class => "level-pack-options"}
+        %a{:href => "#/new-level-pack", :id => "new-level-pack", :title => "Create new level pack"}
+        %a{:href => "#/import-level-pack", :id => "import-level-pack", :title => "Import level pack"}
+
+      %ul{:id => "level-packs", :class => "filetree treeview-black"}
 
     #canvas
       #iphone-case{:class => "horizontal"}
@@ -35,7 +44,11 @@
 
       #options
         %a{:href => "#/change-background-color", :id => "color-wheel", :title => "Change background color"}
-        %a{:href => "#/flip"} Change Orientation
+        %a{:href => "#/new-level", :id => "new-level", :title => "New Level"}
+        %a{:href => "#/save-canvas", :id => "save-level", :title => "Save level"}
+        %a{:href => "#/save-canvas-as", :id => "save-level-as", :title => "Save level as"}
+        %a{:href => "#/clear-canvas", :id => "clear", :title => "Clear canvas"}
+        %a{:href => "#/flip", :id => "change-orientation", :class => "clockwise", :title => "Change Orientation"}
 
       #sprite
         %a{:href => "#/close", :id => :close}
@@ -61,3 +74,5 @@
 
     #textures
       %h2 Sprites Packs
+      #texture-options
+        %a{:href => "#/new-texture-pack", :id => "new-texture-pack", :title => "Create new pack"}
