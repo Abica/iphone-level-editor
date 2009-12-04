@@ -11,6 +11,7 @@
     %script{:type => "text/javascript", :src => "javascripts/jquery-ui.min.js"}
     %script{:type => "text/javascript", :src => "javascripts/jquery.treeview.min.js"}
     %script{:type => "text/javascript", :src => "javascripts/sammy-0.3.0.min.js"}
+    %script{:type => "text/javascript", :src => "javascripts/sammy.template.js"}
     %script{:type => "text/javascript", :src => "javascripts/colorpicker.js"}
     %script{:type => "text/javascript", :src => "javascripts/app.js"}
 
@@ -26,7 +27,7 @@
     level pack name
     %br
     %input{:id => :l, :type => :text}
-    
+
   #content
 
     #levels
@@ -52,7 +53,7 @@
 
       #sprite
         %a{:href => "#/close", :id => :close}
-        %a{:href => "#/delete"} Remove Sprite 
+        %a{:href => "#/delete"} Remove Sprite
         #position
           Located at
           %span{:id => :x}

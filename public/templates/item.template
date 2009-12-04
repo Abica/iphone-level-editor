@@ -1,0 +1,8 @@
+<li>
+  <span>
+   <a><%= sprite.name %></a>
+    <span class="level-sprite-options">
+      <a class="delete-sprite"></a>
+    </span>
+  </span>
+</li>
