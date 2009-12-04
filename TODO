@@ -11,6 +11,8 @@
   [ ] delete a level
   [ ] create a level
   [ ] Associated Sprites
+    [ ] add new sprites onto sprite quick list
+    [ ] removing a sprite from the screen also removes it from the quick list
     [x] collapse / expand list of all sprites in level
     [ ] quick select of sprite
     [ ] quick delete option next to sprite
@@ -19,7 +21,7 @@
   [ ] changing phone orientation should rotate the positions of the placed sprites
   [ ] clip overflow
   [ ] ability to set the origin of the sprite (center, upper left, etc)
-  [ ] clear canvas
+  [x] clear canvas
   [ ] save canvas
   [ ] save canvas as level
 
