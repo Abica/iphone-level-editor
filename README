@@ -4,10 +4,10 @@ their initial positions and to create level packs of your levels. It was built
 around the sole purpose of importing sprite atlases created with this amazing
 texture atlas tool: http://robertjpayne.com/textureatlascreator/
 
-I've been using it for some unreleased apps for http://appsbynick.com. I use it a
+I've been using it for some unreleased apps for http://www.appsbynick.com. I use it a
 ton as a live game white boarding tool that also happens to export to json and
 lua, for for which I'm also going to release some level importers for cocos2d
-objective-C and lua based frameworks. 
+objective-C and lua based frameworks.
 
 Level generation has always been relatively painless, but there are some games
 (puzzle, ping pong, pin ball, bumper pool) that are super annoying to setup. This
@@ -35,7 +35,5 @@ then let me know about it. Even better, send me a patch!
 
 = Installation
 git clone git@github.com:Abica/iphone-level-editor.git
-sudo gem install sinatra
-sudo gem install xml-simple
-sudo gem install json
+sudo gem install sinatra xml-simple json haml
 ruby iphone-level-editor/app.rb

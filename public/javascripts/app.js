@@ -23,17 +23,18 @@ function Size( width, height ) {
 // given
 //   #element { margin: 0 auto; }
 //
+//
 // in safari
-// $( "#element" ).position().left == left
-// $( "#element" ).css( "margin-left" ) == 145px
+// $( '#element' ).position().left == left
+// $( '#element' ).css( 'margin-left' ) == 145px
 //
 // in firefox
-// $( "#element" ).position().left == left + margin-left
-// $( "#element" ).css( "margin-left" ) == 0px
+// $( '#element' ).position().left == left + margin-left
+// $( '#element' ).css( 'margin-left' ) == 0px
 function targetPositionWithMargin( target ) {
   return new Point(
-    target.position().left + parseInt( target.css( "margin-left" ) ),
-    target.position().top + parseInt( target.css( "margin-top" ) )
+    target.position().left + parseInt( target.css( 'margin-left' ) ),
+    target.position().top + parseInt( target.css( 'margin-top' ) )
   );
 }
 
@@ -61,9 +62,9 @@ var Sprite = function( bundle_name, x, y, width, height ) {
 }
 
 Sprite.prototype = {
-  // create a css sprite and add it into the dom 
+  // create a css sprite and add it into the dom
   create: function() {
-    this.element = $( '<div />' ); 
+    this.element = $( '<div />' );
     this.setMetadata( {
       dimensions:  this.dimensions,
       position:    this.position,
@@ -111,7 +112,7 @@ var LevelManager = {
       context.buildMenu();
     } );
   },
-  
+
   levelFor: function( bundle_name, level_name ) {
     return this.level_packs[ bundle_name ] && this.level_packs[ bundle_name ][ level_name ];
   },
@@ -135,7 +136,7 @@ var LevelManager = {
           var position = addPositionToTarget( new Point( attrs.x, attrs.y ), $( '#iphone' ) );
           sprite.element.draggable( { containment: 'parent' } );
           sprite.element.mousedown( spriteEventHandlers.mousedown );
-          
+
           // FIXME: this should rotate the phone but for some reason doesn't..
           //        it appears the sammy route is not getting called as I'd expect
           if ( !$( '#iphone-case' ).hasClass( level.orientation ) ) {
@@ -161,7 +162,7 @@ var LevelManager = {
   },
 
   isActive: function() {
-    return $( "#iphone div" ).length > 0;
+    return $( '#iphone div' ).length > 0;
   },
 
   isEmpty: function() {
@@ -188,7 +189,7 @@ var LevelManager = {
   buildMenu: function() {
     $.each( this.level_packs, function( bundle_name, levels ) {
       var li = $( '<li />' );
-      li.append( $( '<span />' ).text( bundle_name ).addClass( "folder" ) );
+      li.append( $( '<span />' ).text( bundle_name ).addClass( 'folder' ) );
 
       var levels_ul = $( '<ul />' ).attr( 'id', 'level-pack-' + bundle_name );
       li.append( levels_ul );
@@ -208,19 +209,25 @@ var LevelManager = {
         
         var sprites_ul = $( '<ul />' ).attr( 'id', 'level-pack-' + bundle_name + '-' + level_name + '-sprites' );
         $.each( level.actors, function( index, sprite ) {
-          var sprite_li = sprites_ul.append( $( '<li />' ) );
+          var sprite_li = $( '<li />' );
           var sprite_anchor = $( '<a />' ).text( sprite.tag || sprite.image_name );
+
           var sprite_options = $( '<span />' ).addClass( 'level-sprite-options' );
           sprite_options.append(
             $( '<a />' ).addClass( 'delete-sprite' ).attr( 'href', '#/sprite/delete' )
           );
 
           sprite_anchor.click( function() {
-            $( $( "#iphone div" )[ index ] ).mousedown();  
+            // TODO: when clicked, we need to select the correct sprite on the iphone canvas
+            var sprites = $( '#' + $( '.selected-level' ).parents( 'li' ).attr( 'id' ) + '-sprites' );
+            sprites.find( 'li:nth(' + index + ')' );
+
+            $( $( '#iphone div' )[ index ] ).mousedown();
           } );
           var sprite_span = $( '<span />' ).append( sprite_anchor );
           sprite_span.append( sprite_options );
           sprite_li.append( sprite_span );
+          sprites_ul.append( sprite_li );
         } );
         level_anchor.text( level_name );
         level_span.append( level_anchor );
@@ -283,7 +290,6 @@ var AtlasManager = {
 
     $( '#textures div div' ).draggable( { helper: 'clone' } );
   }
-
 }
 
 var spriteEventHandlers = {
@@ -310,8 +316,8 @@ var spriteEventHandlers = {
 
 // TODO: this should take variadic args
 $.fn.cycleClasses = function( a, b ) {
-  return this.each(function() {  
-    var target = $( this );  
+  return this.each(function() {
+    var target = $( this );
     if ( target.hasClass( a ) ) {
       target.removeClass( a );
       target.addClass( b );
@@ -324,6 +330,8 @@ $.fn.cycleClasses = function( a, b ) {
 
 // setup interface routing
 var app = $.sammy( function() {
+  this.use( Sammy.Template );
+
   // toggles the iphone canvas between landscape and portrait
   this.get( '#/flip', function( context ) {
     var width = $( '#iphone' ).width();
@@ -342,9 +350,9 @@ var app = $.sammy( function() {
       x = position.left * Math.cos( angle ) - position.top * Math.sin( angle );
       y = position.left * Math.sin( angle ) + position.top * Math.cos( angle );
 console.log(x,y);
-      $( this ).css( { 
-        left: x + "px",
-        top: y + "px"
+      $( this ).css( {
+        left: x + 'px',
+        top: y + 'px'
       } );
     } );
     */
@@ -367,10 +375,6 @@ console.log(x,y);
   } );
 
   this.get( '#/new-level-pack', function( context ) {
-    this.redirect( '#/' );
-  } );
-
-  this.get( '#/new-level', function( context ) {
     this.redirect( '#/' );
   } );
 
@@ -412,11 +416,11 @@ console.log(x,y);
     }
 
     if ( z < 1 ) {
-      sprite.css( 'z-index', 0 ); 
+      sprite.css( 'z-index', 0 );
       sprite.fadeTo( 500, 0.3 );
 
     } else {
-      sprite.css( 'z-index', z ); 
+      sprite.css( 'z-index', z );
       sprite.fadeTo( 500, 1 );
     }
     this.redirect( '#/' );
@@ -425,6 +429,10 @@ console.log(x,y);
   // remove currently selected sprite from the iphone canvas
   this.get( '#/delete', function( context ) {
     $( '#sprite' ).hide();
+    var index = $( '#iphone div' ).index( $( '.selected' ) )
+    var sprites = $( '#' + $( '.selected-level' ).parents( 'li' ).attr( 'id' ) + '-sprites' );
+    sprites.find( 'li:nth(' + index + ')' ).remove();
+    sprites.find( 'li:last' ).addClass( 'last' );
     $( '#iphone div.selected' ).remove();
     this.redirect( '#/' );
   } );
@@ -435,7 +443,7 @@ $( function() {
   app.run( '#/' );
   AtlasManager.load();
   LevelManager.load();
-  
+
   $( '#sprite' ).hide();
   $( '#tag, #z' ).blur( function() {
     var target = $( this );
@@ -485,8 +493,15 @@ $( function() {
         sprite.element.data( 'onBoard', true );
         sprite.element.mousedown( spriteEventHandlers.mousedown );
         sprite.element.mousedown();
+/*
+        var item = { name: 'SOMETHING' };
+        app.partial( 'templates/item.template', { sprite: item }, function( rendered ) {
+    console.log(rendered);
+          context.$element().append( rendered );
+        });
+*/
 
-      // this object has already been dropped on the iphone canvas 
+      // this object has already been dropped on the iphone canvas
       } else {
         ui.draggable.css( {
           left: ui.position.left + 'px',
