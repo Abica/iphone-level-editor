@@ -204,31 +204,41 @@ var LevelManager = {
 
         var level_options = $( '<span />' ).addClass( 'level-options' );
         level_options.append(
-          $( '<a />' ).addClass( 'delete-sprite' ).attr( 'href', '#/level/delete' )
+          $( '<a />' ).addClass( 'delete-level' ).attr( 'href', '#/level/delete' )
         );
         
-        var sprites_ul = $( '<ul />' ).attr( 'id', 'level-pack-' + bundle_name + '-' + level_name + '-sprites' );
+        var level_id = 'level-pack-' + bundle_name + '-' + level_name + '-sprites';
+        var sprites_ul = $( '<ul />' ).attr( 'id', level_id );
+
+        var select = function( anchor ) {
+          var anchor_index = $( '#levels #' + level_id + ' .select-sprite' ).index( anchor );
+          var sprites = $( '#' + $( '.selected-level' ).parents( 'li' ).attr( 'id' ) + '-sprites' );
+          sprites.find( 'li:nth(' + anchor_index + ')' );
+
+          $( $( '#iphone div' )[ anchor_index ] ).mousedown();
+        }
+ 
         $.each( level.actors, function( index, sprite ) {
           var sprite_li = $( '<li />' );
-          var sprite_anchor = $( '<a />' ).text( sprite.tag || sprite.image_name );
+          var sprite_anchor = $( '<a />' ).addClass( 'select-sprite' ).text( sprite.tag || sprite.image_name );
 
           var sprite_options = $( '<span />' ).addClass( 'level-sprite-options' );
           sprite_options.append(
-            $( '<a />' ).addClass( 'delete-sprite' ).attr( 'href', '#/sprite/delete' )
+            $( '<a />' ).addClass( 'delete-sprite' ).attr( 'href', '#/sprite/delete' ).mousedown( function() {
+              select( sprite_anchor );
+            } )
           );
 
           sprite_anchor.click( function() {
-            // TODO: when clicked, we need to select the correct sprite on the iphone canvas
-            var sprites = $( '#' + $( '.selected-level' ).parents( 'li' ).attr( 'id' ) + '-sprites' );
-            sprites.find( 'li:nth(' + index + ')' );
-
-            $( $( '#iphone div' )[ index ] ).mousedown();
+            select( sprite_anchor );
           } );
+
           var sprite_span = $( '<span />' ).append( sprite_anchor );
           sprite_span.append( sprite_options );
           sprite_li.append( sprite_span );
           sprites_ul.append( sprite_li );
         } );
+
         level_anchor.text( level_name );
         level_span.append( level_anchor );
         level_span.append( level_options );
@@ -427,7 +437,7 @@ console.log(x,y);
   } );
 
   // remove currently selected sprite from the iphone canvas
-  this.get( '#/delete', function( context ) {
+  this.get( '#/sprite/delete', function( context ) {
     $( '#sprite' ).hide();
     var index = $( '#iphone div' ).index( $( '.selected' ) )
     var sprites = $( '#' + $( '.selected-level' ).parents( 'li' ).attr( 'id' ) + '-sprites' );
