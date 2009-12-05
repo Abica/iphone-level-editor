@@ -202,18 +202,18 @@ var LevelManager = {
         } );
 
         var level_options = $( '<span />' ).addClass( 'level-options' );
-        level_options.append( $(
-          $( '<a />' ).addClass( 'delete-sprite' )
-        ) );
+        level_options.append(
+          $( '<a />' ).addClass( 'delete-sprite' ).attr( 'href', '#/level/delete' )
+        );
         
         var sprites_ul = $( '<ul />' ).attr( 'id', 'level-pack-' + bundle_name + '-' + level_name + '-sprites' );
         $.each( level.actors, function( index, sprite ) {
           var sprite_li = sprites_ul.append( $( '<li />' ) );
           var sprite_anchor = $( '<a />' ).text( sprite.tag || sprite.image_name );
           var sprite_options = $( '<span />' ).addClass( 'level-sprite-options' );
-          sprite_options.append( $(
-            $( '<a />' ).addClass( 'delete-sprite' )
-          ) );
+          sprite_options.append(
+            $( '<a />' ).addClass( 'delete-sprite' ).attr( 'href', '#/sprite/delete' )
+          );
 
           sprite_anchor.click( function() {
             $( $( "#iphone div" )[ index ] ).mousedown();  
