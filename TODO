@@ -12,10 +12,10 @@
   [ ] create a level
   [ ] Associated Sprites
     [ ] add new sprites onto sprite quick list
-    [ ] removing a sprite from the screen also removes it from the quick list
+    [x] removing a sprite from the screen also removes it from the quick list
     [x] collapse / expand list of all sprites in level
-    [ ] quick select of sprite
-    [ ] quick delete option next to sprite
+    [x] quick select of sprite
+    [x] quick delete option next to sprite
 
 [ ] Phone
   [ ] changing phone orientation should rotate the positions of the placed sprites
