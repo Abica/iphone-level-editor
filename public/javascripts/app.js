@@ -41,8 +41,8 @@ function targetPositionWithMargin( target ) {
 // returns a point relative to the the position of target
 function subtractPositionFromTarget( position, target ) {
   var target_position = targetPositionWithMargin( target );
-  var x = position.left - target_position.x;
-  var y = position.top - target_position.y;
+  var x = ( position.left || position.x ) - target_position.x;
+  var y = ( position.top  || position.y ) - target_position.y;
   return new Point( x, y );
 }
 
@@ -443,13 +443,15 @@ console.log(x,y);
     }
 
     if ( z < 1 ) {
-      sprite.css( 'z-index', 0 );
+      z = 0;
       sprite.fadeTo( 500, 0.3 );
 
     } else {
-      sprite.css( 'z-index', z );
       sprite.fadeTo( 500, 1 );
     }
+
+    sprite.css( 'z-index', z );
+    sprite.data( 'metadata' ).z = z;
     this.redirect( '#/' );
   } );
 
@@ -510,6 +512,7 @@ $( function() {
 
   $( '#iphone' ).droppable( {
     drop: function( event, ui ) {
+      var point = subtractPositionFromTarget( ui.position, $( '#iphone' ) );
 
       // we're dropping a new object onto the iphone canvas
       if ( !ui.draggable.data( 'onBoard' ) ) {
@@ -531,6 +534,8 @@ $( function() {
           top: ui.position.top + 'px'
         } );
 
+        sprite.setMetadata( { position: point } );
+
         sprite.element.data( 'onBoard', true );
         sprite.element.mousedown( spriteEventHandlers.mousedown );
         sprite.element.mousedown();
@@ -544,11 +549,18 @@ $( function() {
 
       // this object has already been dropped on the iphone canvas
       } else {
-        ui.draggable.css( {
+        var sprite = ui.draggable;
+        sprite.css( {
           left: ui.position.left + 'px',
           top: ui.position.top + 'px'
         } );
-        ui.draggable.mousedown();
+
+        var metadata = sprite.data( 'metadata' );
+
+        metadata.position.x = point.x;
+        metadata.position.y = point.y
+
+        sprite.mousedown();
       }
     }
   } );

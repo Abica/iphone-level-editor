@@ -14,7 +14,7 @@ levelpacks = {
       actors: [
         { image_name: "image.png",
           bundle_name: "sprite_atlas_name",
-          tag: "spider.png",
+          tag: "player",
           x: 40,
           y: 60,
           z: 2 }
