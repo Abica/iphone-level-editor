@@ -18,15 +18,15 @@ I'm not sure if I think of this as a level editor or a level designer. Either wa
 it's awesome.
 
 = What it actually does
-  - Imports sprite atlases created with http://robertjpayne.com/textureatlascreator/
-    that can be used that are saved into a sprite palette that you can drag and drop
-    onto a little iphone and save out into levels that can later be loaded into games.
-  - supports z-indexes, where a z-index of 0 represents a hidden sprite.
-  - allows the creation of level packs, with each pack containing arbitrary levels
-  - supports loading of existing level packs
-  - can export level packs in json or lua
-  - supports giving tags to characters so they can be referenced later in code (ie player)
-  - supports landscape or portrait mode
+- Imports sprite atlases created with http://robertjpayne.com/textureatlascreator/
+  that can be used that are saved into a sprite palette that you can drag and drop
+  onto a little iphone and save out into levels that can later be loaded into games.
+- supports z-indexes, where a z-index of 0 represents a hidden sprite.
+- allows the creation of level packs, with each pack containing arbitrary levels
+- supports loading of existing level packs
+- can export level packs in json or lua
+- supports giving tags to characters so they can be referenced later in code (ie player)
+- supports landscape or portrait mode
 
 = Compatability
 This tool is known to work on recent versions of Safari and Firefox on extremely
