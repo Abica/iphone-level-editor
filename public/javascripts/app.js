@@ -104,6 +104,10 @@ var LevelManager = {
   current_level: null,
   tree: null,
 
+  packageInfo: function( id ) {
+    return id.match( /(\w+)-(\w+)-\w+$/ ).slice( 1,3 );
+  },
+
   load: function() {
     var context = this;
     $.getJSON( '/levels.json', function( data ) {
@@ -111,6 +115,22 @@ var LevelManager = {
       context.level_packs = data;
       context.buildMenu();
     } );
+  },
+
+  removeLevelPackById: function( id ) {
+    return this.removeLevelPack( this.packageInfo( id )[ 0 ] ); 
+  },
+
+  removeLevelPack: function( bundle_name ) {
+    return delete this.level_packs[ bundle_name ];
+  },
+
+  removeLevelById: function( id ) {
+    return this.removeLevel.apply( this, this.packageInfo( id ) ); 
+  },
+
+  removeLevel: function( bundle_name, level_name ) {
+    return this.level_packs[ bundle_name ] && delete this.level_packs[ bundle_name ][ level_name ];
   },
 
   levelFor: function( bundle_name, level_name ) {
@@ -195,7 +215,8 @@ var LevelManager = {
       li.append( levels_ul );
 
       $.each( levels, function( level_name, level ) {
-        var level_li = $( '<li />' ).attr( 'id', 'level-pack-' + bundle_name + '-' + level_name );
+        var level_id = 'level-pack-' + bundle_name + '-' + level_name + '-sprites';
+        var level_li = $( '<li />' ).attr( 'id', level_id );
         var level_span = $( '<span />' ).addClass( 'file' );
         var level_anchor = $( '<a />' ).attr( {
           href: '#/load/' + bundle_name + '/' + level_name,
@@ -204,10 +225,9 @@ var LevelManager = {
 
         var level_options = $( '<span />' ).addClass( 'level-options' );
         level_options.append(
-          $( '<a />' ).addClass( 'delete-level' ).attr( 'href', '#/level/delete' )
+          $( '<a />' ).addClass( 'delete-level' ).attr( 'href', '#/level/delete/' + level_id )
         );
         
-        var level_id = 'level-pack-' + bundle_name + '-' + level_name + '-sprites';
         var sprites_ul = $( '<ul />' ).attr( 'id', level_id );
 
         var select = function( anchor ) {
@@ -432,6 +452,16 @@ console.log(x,y);
     } else {
       sprite.css( 'z-index', z );
       sprite.fadeTo( 500, 1 );
+    }
+    this.redirect( '#/' );
+  } );
+
+  this.get( '#/level/delete/:id', function( context ) {
+    if ( confirm( 'Do you really want to premanently delete this level?' ) ) {
+      LevelManager.removeLevelById( this.params[ 'id' ] );
+      $( '#' + this.params[ 'id' ] ).remove();
+console.log( $(LevelManager.level_packs).serialize());
+      $.post( '/levels/save', $( LevelManager.level_packs ).serialize() );
     }
     this.redirect( '#/' );
   } );

@@ -6,7 +6,6 @@ require 'xmlsimple'
 require 'json'
 require 'pp'
 
-
 get '/' do
   haml :index, :layout => true
 end
@@ -39,6 +38,11 @@ end
 
 post '/import/textures' do
   # import a plist and an image texture
+end
+
+post "/levels/save" do
+  content_type :json
+puts params.inspect
 end
 
 post '/export' do
