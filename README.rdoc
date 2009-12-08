@@ -34,6 +34,6 @@ high resolutions. If you find things that don't work on certain browsers or plat
 then let me know about it. Even better, send me a patch!
 
 = Installation
-git clone git@github.com:Abica/iphone-level-editor.git
-sudo gem install sinatra xml-simple json haml
-ruby iphone-level-editor/app.rb
+  git clone git@github.com:Abica/iphone-level-editor.git
+  sudo gem install sinatra xml-simple json haml
+  ruby iphone-level-editor/app.rb
