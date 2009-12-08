@@ -3,6 +3,8 @@
   [ ] delete a level pack
   [x] collapse / expand
   [ ] export a level pack
+    [ ] as json
+    [ ] as a lua table
   [ ] import a level pack
 
 [ ] Levels
@@ -31,8 +33,9 @@
 [ ] Sprite Packs
   [ ] collapse / expand
   [ ] delete a sprite pack
-  [ ] import a sprite pack
-  [ ] import a single sprite
+  [ ] import
+    [ ] sprite pack
+    [ ] single sprite
 
 [ ] Overall
   [ ] the entire app needs styling
