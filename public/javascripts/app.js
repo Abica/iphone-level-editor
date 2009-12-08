@@ -206,7 +206,7 @@ var LevelManager = {
         level_options.append(
           $( '<a />' ).addClass( 'delete-level' ).attr( 'href', '#/level/delete' )
         );
-        
+
         var level_id = 'level-pack-' + bundle_name + '-' + level_name + '-sprites';
         var sprites_ul = $( '<ul />' ).attr( 'id', level_id );
 
@@ -217,7 +217,7 @@ var LevelManager = {
 
           $( $( '#iphone div' )[ anchor_index ] ).mousedown();
         }
- 
+
         $.each( level.actors, function( index, sprite ) {
           var sprite_li = $( '<li />' );
           var sprite_anchor = $( '<a />' ).addClass( 'select-sprite' ).text( sprite.tag || sprite.image_name );
@@ -440,7 +440,9 @@ console.log(x,y);
   this.get( '#/sprite/delete', function( context ) {
     $( '#sprite' ).hide();
     var index = $( '#iphone div' ).index( $( '.selected' ) )
-    var sprites = $( '#' + $( '.selected-level' ).parents( 'li' ).attr( 'id' ) + '-sprites' );
+    var id = $( '.selected-level' ).parents( 'li' ).attr( 'id' );
+console.log(id);
+    var sprites = $( '#' + id + '-sprites' );
     sprites.find( 'li:nth(' + index + ')' ).remove();
     sprites.find( 'li:last' ).addClass( 'last' );
     $( '#iphone div.selected' ).remove();
