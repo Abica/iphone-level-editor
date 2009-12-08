@@ -10,6 +10,7 @@
   [ ] respect orientation of saved levels when reloading them
   [ ] delete a level
   [ ] create a level
+  [ ] clicking a level should not reload cached sprites
   [ ] Associated Sprites
     [ ] add new sprites onto sprite quick list
     [x] removing a sprite from the screen also removes it from the quick list

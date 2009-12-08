@@ -1,13 +1,13 @@
 = About & Rambling
 The iPhone level designer is a tool that allows you to drag and drop sprites into
-their initial positions and to create level packs of your levels. It was built
+their initial positions and to create level packs for simple games. It was built
 around the sole purpose of importing sprite atlases created with this amazing
 texture atlas tool: http://robertjpayne.com/textureatlascreator/
 
-I've been using it for some unreleased apps for http://www.appsbynick.com. I use it a
-ton as a live game white boarding tool that also happens to export to json and
-lua, for for which I'm also going to release some level importers for cocos2d
-objective-C and lua based frameworks.
+I've been using it for some unreleased apps over at http://www.appsbynick.com.
+I also use it a ton as a live game whiteboarding tool that also happens to export
+to json and lua, for for which I'm also going to release some level importers for
+cocos2d objective-C and lua based frameworks.
 
 Level generation has always been relatively painless, but there are some games
 (puzzle, ping pong, pin ball, bumper pool) that are super annoying to setup. This
