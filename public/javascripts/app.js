@@ -134,6 +134,11 @@ var LevelManager = {
     return $( '#levels .selected-level' ).parents( 'li:first' );
   },
 
+  currentLevel: function() {
+    var level = this.selectedLevelRoot();
+    return this.levelFor.apply( this, this.packageInfo( level.attr( 'id' ) ) );
+  },
+
   insertOrUpdateActor: function( sprite, index ) {
     var lis = this.selectedLevelRoot().find( 'li' );
     if ( index < lis.length ) {
@@ -154,11 +159,6 @@ console.log( 'insert actor' );
   updateActor: function( sprite, index ) {
   },
 
-  currentLevel: function() {
-    var level = this.selectedLevelRoot();
-    return this.levelFor.apply( this, this.packageInfo( level.attr( 'id' ) ) ); 
-  },
-
   insertActor: function( sprite, index ) {
     var metadata = sprite.data( 'metadata' );
     var level_root = this.selectedLevelRoot();
@@ -166,7 +166,7 @@ console.log( 'insert actor' );
     var new_actor = last_actor.clone();
 console.log( this.packageInfo( level_root.attr( 'id' ) ) );
 
-    var level = this.levelFor.apply( this, this.packageInfo( level_root.attr( 'id' ) ) ); 
+    var level = this.levelFor.apply( this, this.packageInfo( level_root.attr( 'id' ) ) );
     level.actors.push( this.metadataToActor( metadata ) );
 console.log( level );
     new_actor.find( '.select-sprite' ).text( metadata.tag || 'Tag me' );
@@ -180,7 +180,7 @@ console.log( level );
   },
 
   removeLevelPackById: function( id ) {
-    return this.removeLevelPack( this.packageInfo( id )[ 0 ] ); 
+    return this.removeLevelPack( this.packageInfo( id )[ 0 ] );
   },
 
   removeLevelPack: function( bundle_name ) {
@@ -188,7 +188,7 @@ console.log( level );
   },
 
   removeLevelById: function( id ) {
-    return this.removeLevel.apply( this, this.packageInfo( id ) ); 
+    return this.removeLevel.apply( this, this.packageInfo( id ) );
   },
 
   removeLevel: function( bundle_name, level_name ) {
