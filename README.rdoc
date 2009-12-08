@@ -30,7 +30,12 @@ it's awesome.
 
 = Compatability
 This tool is known to work on recent versions of Safari and Firefox on extremely
-high resolutions. If you find things that don't work on certain browsers or platforms
+high resolutions.
+
+It was developed and optimized for OS X 10.5 and higher and should work nicely on the
+default mac resolutions.
+
+If you find things that don't work on certain browsers or platforms
 then let me know about it. Even better, send me a patch!
 
 = Installation
