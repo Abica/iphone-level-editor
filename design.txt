@@ -1,12 +1,23 @@
-levels = {
-  bumpercars: {
-    levels: {
-      levelname:  {
-        spritename: {
-          tag: "paddle.png",
-          z: "2"
-        }
-      }
+// concepts
+//
+//   level packs
+//     a level pack represents a collection of levels
+//
+//   levels
+//     a level contains several actors (sprites with the game world)
+//     with their initial positions and some other metadata
+//
+levelpacks = {
+  levelpack_name: {
+    levelname: {
+      orientation: "vertical",
+      actors: [
+        { image_name: "image.png",
+          bundle_name: "sprite_atlas_name",
+          tag: "spider.png",
+          x: 40,
+          y: 60,
+          z: 2 }
+      ]
     }
   }
-}
