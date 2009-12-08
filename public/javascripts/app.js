@@ -98,6 +98,7 @@ Sprite.prototype = {
   }
 }
 
+// REFACTOR: levels and actors should be split into 2 separate namespaces (possibly also level packs as well)
 var LevelManager = {
   // container for parsed levels
   level_packs: {},
@@ -106,6 +107,18 @@ var LevelManager = {
 
   packageInfo: function( id ) {
     return id.match( /(\w+)-(\w+)-\w+$/ ).slice( 1, 3 );
+  },
+
+  // REFACTOR: this shouldn't go here
+  metadataToActor: function( data ) {
+    return {
+      image_name:  data.image_name,
+      bundle_name: data.bundle_name,
+      tag:         data.tag,
+      x:           data.position.x,
+      y:           data.position.y,
+      z:           data.z
+    };
   },
 
   load: function() {
@@ -133,23 +146,37 @@ console.log( 'insert actor' );
     }
   },
 
+  removeActor: function( index ) {
+    var level = this.currentLevel();
+    level.actors.splice( index, 1 );
+  },
+
   updateActor: function( sprite, index ) {
+  },
+
+  currentLevel: function() {
+    var level = this.selectedLevelRoot();
+    return this.levelFor.apply( this, this.packageInfo( level.attr( 'id' ) ) ); 
   },
 
   insertActor: function( sprite, index ) {
     var metadata = sprite.data( 'metadata' );
-    var level = this.selectedLevelRoot();
-    var last_actor = level.find( 'li:last' );
+    var level_root = this.selectedLevelRoot();
+    var last_actor = level_root.find( 'li:last' );
     var new_actor = last_actor.clone();
+console.log( this.packageInfo( level_root.attr( 'id' ) ) );
 
+    var level = this.levelFor.apply( this, this.packageInfo( level_root.attr( 'id' ) ) ); 
+    level.actors.push( this.metadataToActor( metadata ) );
+console.log( level );
     new_actor.find( '.select-sprite' ).text( metadata.tag || 'Tag me' );
-    level.find( 'li' ).removeClass( 'last' );
-    new_actor.appendTo( level );
+    level_root.find( 'li' ).removeClass( 'last' );
+    new_actor.appendTo( level_root );
     new_actor.addClass( 'last' );
 
     // TODO: a.select-sprite needs the same events as other actors
     // TODO: node needs to be correctly added to the tree (the below should work but doesn't)
-    level.treeview({add: new_actor});
+    level_root.treeview( { add: new_actor } );
   },
 
   removeLevelPackById: function( id ) {
@@ -511,6 +538,7 @@ console.log( $(LevelManager.level_packs).serialize());
     sprites.find( 'li:nth(' + index + ')' ).remove();
     sprites.find( 'li:last' ).addClass( 'last' );
     $( '#iphone div.selected' ).remove();
+    LevelManager.removeActor( index );
 
     this.redirect( '#/' );
   } );
