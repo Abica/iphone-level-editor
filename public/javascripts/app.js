@@ -1,7 +1,7 @@
 // represents a point in 2d space
 function Point( x, y ) {
-  this.x = x;
-  this.y = y;
+  this.x = parseInt( x );
+  this.y = parseInt( y );
   return this;
 }
 
@@ -512,56 +512,44 @@ $( function() {
 
   $( '#iphone' ).droppable( {
     drop: function( event, ui ) {
-      var point = subtractPositionFromTarget( ui.position, $( '#iphone' ) );
-
       // we're dropping a new object onto the iphone canvas
       if ( !ui.draggable.data( 'onBoard' ) ) {
-        var metadata = ui.draggable.data( 'metadata' );
-        var sprite = new Sprite(
-          metadata.bundle_name,
-          metadata.position.x,
-          metadata.position.y,
-          metadata.dimensions.width,
-          metadata.dimensions.height
+        var data = ui.draggable.data( 'metadata' );
+        var sprite_obj = new Sprite(
+          data.bundle_name,
+          data.position.x,
+          data.position.y,
+          data.dimensions.width,
+          data.dimensions.height
         );
 
-        sprite.element.draggable( { containment: 'parent' } );
-        $( '#iphone' ).append( sprite.element );
+        var sprite = sprite_obj.element;
+        var metadata = sprite.data( 'metadata' );
 
-        sprite.element.css( {
-          position: 'absolute',
-          left: ui.position.left + 'px',
-          top: ui.position.top + 'px'
-        } );
+        sprite.draggable( { containment: 'parent' } );
+        $( '#iphone' ).append( sprite );
 
-        sprite.setMetadata( { position: point } );
-
-        sprite.element.data( 'onBoard', true );
-        sprite.element.mousedown( spriteEventHandlers.mousedown );
-        sprite.element.mousedown();
-/*
-        var item = { name: 'SOMETHING' };
-        app.partial( 'templates/item.template', { sprite: item }, function( rendered ) {
-    console.log(rendered);
-          context.$element().append( rendered );
-        });
-*/
+        sprite.data( 'onBoard', true );
+        sprite.mousedown( spriteEventHandlers.mousedown );
 
       // this object has already been dropped on the iphone canvas
       } else {
         var sprite = ui.draggable;
-        sprite.css( {
-          left: ui.position.left + 'px',
-          top: ui.position.top + 'px'
-        } );
-
         var metadata = sprite.data( 'metadata' );
-
-        metadata.position.x = point.x;
-        metadata.position.y = point.y
-
-        sprite.mousedown();
       }
+
+      sprite.css( {
+        position: 'absolute',
+        left: ui.position.left + 'px',
+        top: ui.position.top + 'px'
+      } );
+
+      var point = subtractPositionFromTarget( ui.position, $( '#iphone' ) );
+
+      metadata.position.x = point.x;
+      metadata.position.y = point.y;
+
+      sprite.mousedown();
     }
   } );
 } );
