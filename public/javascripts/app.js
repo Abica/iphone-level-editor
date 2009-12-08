@@ -105,7 +105,7 @@ var LevelManager = {
   tree: null,
 
   packageInfo: function( id ) {
-    return id.match( /(\w+)-(\w+)-\w+$/ ).slice( 1,3 );
+    return id.match( /(\w+)-(\w+)-\w+$/ ).slice( 1, 3 );
   },
 
   load: function() {
@@ -232,9 +232,6 @@ var LevelManager = {
 
         var select = function( anchor ) {
           var anchor_index = $( '#levels #' + level_id + ' .select-sprite' ).index( anchor );
-          var sprites = $( '#' + $( '.selected-level' ).parents( 'li' ).attr( 'id' ) + '-sprites' );
-          sprites.find( 'li:nth(' + anchor_index + ')' );
-
           $( $( '#iphone div' )[ anchor_index ] ).mousedown();
         }
 
@@ -250,7 +247,7 @@ var LevelManager = {
           );
 
           sprite_anchor.click( function() {
-            select( sprite_anchor );
+            select( this );
           } );
 
           var sprite_span = $( '<span />' ).append( sprite_anchor );
@@ -469,13 +466,15 @@ console.log( $(LevelManager.level_packs).serialize());
   // remove currently selected sprite from the iphone canvas
   this.get( '#/sprite/delete', function( context ) {
     $( '#sprite' ).hide();
+
     var index = $( '#iphone div' ).index( $( '.selected' ) )
     var id = $( '.selected-level' ).parents( 'li' ).attr( 'id' );
-console.log(id);
-    var sprites = $( '#' + id + '-sprites' );
+    var sprites = $( '#' + id );
+
     sprites.find( 'li:nth(' + index + ')' ).remove();
     sprites.find( 'li:last' ).addClass( 'last' );
     $( '#iphone div.selected' ).remove();
+
     this.redirect( '#/' );
   } );
 } );
