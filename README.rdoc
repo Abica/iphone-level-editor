@@ -12,7 +12,7 @@ cocos2d objective-C and lua based frameworks.
 Level generation has always been relatively painless, but there are some games
 (puzzle, ping pong, pin ball, bumper pool) that are super annoying to setup. This
 is a tool for games like that. Currently this generator does not support levels
-parallax scrolling.
+that require parallax scrolling.
 
 I'm not sure if I think of this as a level editor or a level designer. Either way
 it's awesome.
