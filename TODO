@@ -39,3 +39,4 @@
 
 [ ] Overall
   [ ] the entire app needs styling
+  [ ] refactor html creation with javascript into sammy templates
