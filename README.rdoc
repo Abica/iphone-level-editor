@@ -1,0 +1,39 @@
+= About & Rambling
+The iPhone level designer is a tool that allows you to drag and drop sprites into
+their initial positions and to create level packs for simple games. It was built
+around the sole purpose of importing sprite atlases created with this amazing
+texture atlas tool: http://robertjpayne.com/textureatlascreator/
+
+I've been using it for some unreleased apps over at http://www.appsbynick.com.
+I also use it a ton as a live game whiteboarding tool that also happens to export
+to json and lua, for for which I'm also going to release some level importers for
+cocos2d objective-C and lua based frameworks.
+
+Level generation has always been relatively painless, but there are some games
+(puzzle, ping pong, pin ball, bumper pool) that are super annoying to setup. This
+is a tool for games like that. Currently this generator does not support levels
+parallax scrolling.
+
+I'm not sure if I think of this as a level editor or a level designer. Either way
+it's awesome.
+
+= What it actually does
+  - Imports sprite atlases created with http://robertjpayne.com/textureatlascreator/
+    that can be used that are saved into a sprite palette that you can drag and drop
+    onto a little iphone and save out into levels that can later be loaded into games.
+  - supports z-indexes, where a z-index of 0 represents a hidden sprite.
+  - allows the creation of level packs, with each pack containing arbitrary levels
+  - supports loading of existing level packs
+  - can export level packs in json or lua
+  - supports giving tags to characters so they can be referenced later in code (ie player)
+  - supports landscape or portrait mode
+
+= Compatability
+This tool is known to work on recent versions of Safari and Firefox on extremely
+high resolutions. If you find things that don't work on certain browsers or platforms
+then let me know about it. Even better, send me a patch!
+
+= Installation
+git clone git@github.com:Abica/iphone-level-editor.git
+sudo gem install sinatra xml-simple json haml
+ruby iphone-level-editor/app.rb
