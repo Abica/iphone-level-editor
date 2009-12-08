@@ -117,6 +117,41 @@ var LevelManager = {
     } );
   },
 
+  selectedLevelRoot: function() {
+    return $( '#levels .selected-level' ).parents( 'li:first' );
+  },
+
+  insertOrUpdateActor: function( sprite, index ) {
+    var lis = this.selectedLevelRoot().find( 'li' );
+    if ( index < lis.length ) {
+      this.updateActor( sprite, index );
+console.log( 'update actor' );
+
+    } else {
+console.log( 'insert actor' );
+      this.insertActor( sprite, index );
+    }
+  },
+
+  updateActor: function( sprite, index ) {
+  },
+
+  insertActor: function( sprite, index ) {
+    var metadata = sprite.data( 'metadata' );
+    var level = this.selectedLevelRoot();
+    var last_actor = level.find( 'li:last' );
+    var new_actor = last_actor.clone();
+
+    new_actor.find( '.select-sprite' ).text( metadata.tag || 'Tag me' );
+    level.find( 'li' ).removeClass( 'last' );
+    new_actor.appendTo( level );
+    new_actor.addClass( 'last' );
+
+    // TODO: a.select-sprite needs the same events as other actors
+    // TODO: node needs to be correctly added to the tree (the below should work but doesn't)
+    level.treeview({add: new_actor});
+  },
+
   removeLevelPackById: function( id ) {
     return this.removeLevelPack( this.packageInfo( id )[ 0 ] ); 
   },
@@ -550,6 +585,9 @@ $( function() {
       metadata.position.y = point.y;
 
       sprite.mousedown();
+      var index = $( '#iphone div' ).index( sprite );
+      console.log( index );
+      LevelManager.insertOrUpdateActor( sprite, index );
     }
   } );
 } );
