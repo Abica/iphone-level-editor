@@ -1,3 +1,10 @@
+= READ FIRST
+I needed more github accounts, so I had to make this public.
+
+This tool is not finished yet. I got sidetracked on it and currently it does not export and has poor styling. It is still pretty fun to use to import sprite packs so you can see how things would look in the game, but you're probably better off using inkscape or something for that right now.
+
+To import custom sprite sheets, add them to public/sprite_atlases by following the other examples in that directory. Same goes for level_packs, which are in public/level_packs.
+
 = About & Rambling
 The iPhone level designer is a tool that allows you to drag and drop sprites into
 their initial positions and to create level packs for simple games. It was built
